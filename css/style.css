@@ -100,7 +100,7 @@ html {
   }
   
   .customer-name {
-      font-size: 18px;
+      font-size: 25px;
       font-weight: bold;
       color: #1f77b4;
       margin-bottom: 20px;
@@ -149,7 +149,7 @@ html {
   .alerts {
       color: red;
       font-size: 12px;
-      margin-top: 5px;
+      margin-top: 20px;
       flex: 1;
   }
   
@@ -259,4 +259,24 @@ html {
   
   #proceed-btn:hover.active {
       background-color: #58b2a5;
+  }
+
+  .custom-modal-title {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bolder;
+    font-size: 20;
+    text-align: center;
+  }
+  .welcome-title{
+    color: #2078b3;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+  }
+
+  .welcome-text1, .welcome-text2{
+    margin-top: 25px;
+    padding: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    width: 725px;
   }

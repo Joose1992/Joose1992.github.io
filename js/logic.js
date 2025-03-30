@@ -79,3 +79,123 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 100);
     }
 });
+
+// Chart configuration data
+const energyCharts = [
+    {
+        id: 'energy-month-end1',
+        title: 'Energy Usage - Month End',
+        canvasId: 'energyBarChart1',
+        chartType: 'energy-month-end',
+        initialUnit: 'units'
+    },
+    {
+        id: 'energy-month-end-money',
+        title: 'Energy Usage - Month End',
+        canvasId: 'energyBarChartMoney',
+        chartType: 'energy-month-end',
+        initialUnit: 'dollars'
+    },
+    {
+        id: 'energy-month-end2',
+        title: 'Energy Usage - Month End',
+        canvasId: 'energyBarChart2',
+        chartType: 'energy-month-end',
+        initialUnit: 'units'
+    },
+    {
+        id: 'energy-month-end-dollars2',
+        title: 'Energy Usage - Month End',
+        canvasId: 'energyBarChartDollars2',
+        chartType: 'energy-month-end',
+        initialUnit: 'dollars'
+    },
+    {
+        id: 'energy-month-end3',
+        title: 'Energy Usage - Month End',
+        canvasId: 'energyBarChart3',
+        chartType: 'energy-month-end',
+        initialUnit: 'units'
+    }
+];
+
+function initializeEnergyChart(canvas, config) {
+    const ctx = canvas.getContext('2d');
+    return new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: `Energy Usage (${config.initialUnit === 'units' ? 'kWh' : '$'})`,
+                data: config.initialUnit === 'units' 
+                    ? [65, 59, 80, 81, 56, 55]
+                    : [650, 590, 800, 810, 560, 550],
+                backgroundColor: '#4CAF50'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+}
+
+// Function to display chart with different units
+function displayChart(chartType, unit, chart) {
+    // Update chart data based on unit
+    const newData = unit === 'dollars' 
+        ? [650, 590, 800, 810, 560, 550]  // Dollar values
+        : [65, 59, 80, 81, 56, 55];       // Unit values
+    
+    chart.data.datasets[0].data = newData;
+    chart.data.datasets[0].label = `Energy Usage (${unit === 'dollars' ? '$' : 'kWh'})`;
+    chart.update();
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize all energy charts
+    energyCharts.forEach(chartConfig => {
+        const canvas = document.getElementById(chartConfig.canvasId);
+        if (canvas) {
+            initializeEnergyChart(canvas, chartConfig);
+        }
+    });
+
+    // Add event listeners to unit toggle buttons
+    document.querySelectorAll('.unit-toggle').forEach(button => {
+        button.addEventListener('click', function() {
+            const chartType = this.dataset.chart;
+            const unit = this.dataset.unit;
+            const canvasId = this.closest('.chart').querySelector('canvas').id;
+            const chart = Chart.getChart(canvasId);
+            
+            if (chart) {
+                displayChart(chartType, unit, chart);
+                // Update button's data-unit for next toggle
+                this.dataset.unit = unit === 'units' ? 'dollars' : 'units';
+            }
+        });
+    });
+
+    // Initialize property controls
+    initializePropertyControls();
+});
+
+// Initialize property checkboxes
+function initializePropertyControls() {
+    const checkboxes = document.querySelectorAll('.property-checkbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', (e) => {
+            const propertyId = e.target.dataset.property;
+            updateChartData(propertyId, e.target.checked);
+        });
+    });
+}
+
+// Update chart data when properties are selected/deselected
+function updateChartData(propertyId, isSelected) {
+    // Implementation for updating chart data based on property selection
+    console.log(`Property ${propertyId} ${isSelected ? 'selected' : 'deselected'}`);
+    // Add your chart update logic here
+}
